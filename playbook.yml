@@ -1,0 +1,32 @@
+---
+- name: Ansible Users
+  hosts: all
+  gather_facts: false
+  become: yes
+  tasks:
+  - name: Wait 300 seconds, but only start checking after 60
+    wait_for_connection:
+      delay: 60
+      timeout: 300
+  - name: Add users
+    user:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - baymax
+      - hiro
+      - tadashi
+  - name: Get ResourceHogs and Extract
+    ansible.builtin.unarchive:
+      src: http://cit.dixie.edu/it/3100/examples.examples/resource-hogs.tgz
+      dest: /usr/local/bin
+      remote_src: yes
+  - name: Install Fortune Package
+    yum:
+      name: fortune-mod
+      state: latest
+  - name: Copy /etc/passwd to node
+    become: true
+    copy:
+      src: /etc/passwd
+      dest: /tmp/passwd
