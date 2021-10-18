@@ -21,9 +21,9 @@
       src: http://cit.dixie.edu/it/3100/examples.examples/resource-hogs.tgz
       dest: /usr/local/bin
       remote_src: yes
-  - name: Install Fortune Package
+  - name: Install maven Package
     yum:
-      name: fortune-mod
+      name: maven
       state: latest
   - name: Copy /etc/passwd to node
     become: true
